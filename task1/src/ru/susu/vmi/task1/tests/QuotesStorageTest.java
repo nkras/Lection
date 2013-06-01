@@ -16,7 +16,12 @@ import static org.junit.Assert.*;
 
 
 public class QuotesStorageTest {
-    @Test
+	
+	
+    
+	
+	
+   @Test
     public void testQuote() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2011);
@@ -98,7 +103,7 @@ public class QuotesStorageTest {
         calBef.set(Calendar.YEAR, 2011);
         calBef.set(Calendar.MONTH, 1);
         calBef.set(Calendar.DAY_OF_MONTH, 1);
-        Date dateBef = calAf.getTime();
+        Date dateBef = calBef.getTime();
        
         
         Quote quote=new Quote("a",date,200.0,300.0,100.0,107.0,1.0);
@@ -108,7 +113,7 @@ public class QuotesStorageTest {
         storage.addStock(quote1);
         storage.addStock(quote2);
         System.out.println(storage.getStocks("b", dateBef, dateAf));          
-//      assertEquals(storage.getStocks("b", dateBef, dateAf),"[\"b\","+date.toString()+",Open=200.0,High=300.0,Low=100.0,Close=107.0,Volume=1.0]");     
+        assertEquals(storage.getStocks("b", dateBef, dateAf).toString(),"[\"b\","+date.toString()+",Open=200.0,High=300.0,Low=100.0,Close=107.0,Volume=1.0]");     
         storage.clear();
     }
     
@@ -150,5 +155,64 @@ public class QuotesStorageTest {
        
     }
     
-
+    @Test
+    public void testtoStringWithExactSymbol(){
+    	 QuoteStorage storage = new QuoteStorage();
+         Calendar cal = Calendar.getInstance();
+         cal.set(Calendar.YEAR, 2011);
+         cal.set(Calendar.MONTH, 2);
+         cal.set(Calendar.DAY_OF_MONTH, 2);
+         Date date = cal.getTime();
+         
+         Calendar calAf = Calendar.getInstance();
+         calAf.set(Calendar.YEAR, 2011);
+         calAf.set(Calendar.MONTH, 3);
+         calAf.set(Calendar.DAY_OF_MONTH, 3);     
+         Date dateAf = calAf.getTime();
+         
+         Calendar calBef = Calendar.getInstance();
+         calBef.set(Calendar.YEAR, 2011);
+         calBef.set(Calendar.MONTH, 1);
+         calBef.set(Calendar.DAY_OF_MONTH, 1);
+         Date dateBef = calBef.getTime();
+        
+         Quote quote1=new Quote("a",dateBef,200.0,300.0,100.0,107.0,1.0);
+         Quote quote2=new Quote("a",dateAf,200.0,300.0,100.0,107.0,1.0);
+         Quote quote3=new Quote("a",date,200.0,300.0,100.0,107.0,1.0);
+         
+         storage.addStock(quote3);
+         storage.addStock(quote1);
+         storage.addStock(quote2);
+         
+         storage.toStringWithExactSymbol("a");
+         storage.toStringWithExactSymbol("a");
+}
+    
+    @Test
+    public void testMapGetStocksQuoteStorage(){
+        QuoteStorage storage = new QuoteStorage();
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2011);
+        cal.set(Calendar.MONTH, 2);
+        cal.set(Calendar.DAY_OF_MONTH, 2);
+        Date date = cal.getTime();
+        
+        Calendar calAf = Calendar.getInstance();
+        calAf.set(Calendar.YEAR, 2011);
+        calAf.set(Calendar.MONTH, 3);
+        calAf.set(Calendar.DAY_OF_MONTH, 3);     
+        Date dateAf = calAf.getTime();
+        
+        Calendar calBef = Calendar.getInstance();
+        calBef.set(Calendar.YEAR, 2011);
+        calBef.set(Calendar.MONTH, 1);
+        calBef.set(Calendar.DAY_OF_MONTH, 1);
+        Date dateBef = calBef.getTime();
+       
+        
+        Quote quote=new Quote("a",date,200.0,300.0,100.0,107.0,1.0);
+        storage.addStock(quote);               
+        assertEquals(storage.getStocks(dateBef, dateAf).toString(),"{a=[\"a\","+date.toString()+",Open=200.0,High=300.0,Low=100.0,Close=107.0,Volume=1.0]}");     
+        storage.clear();
+    }
 }
